@@ -1,0 +1,1 @@
+Infrastructure required to run a container in a lambda function that inserts and queries data into a QLDB database.

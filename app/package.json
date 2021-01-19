@@ -1,0 +1,32 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Project to get hands-on experience QLDB",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdunnaway/vigilant-octo-dollop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdunnaway/vigilant-octo-dollop/issues"
+  },
+  "homepage": "https://github.com/jdunnaway/vigilant-octo-dollop#readme",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.70",
+    "@typescript-eslint/eslint-plugin": "^4.14.0",
+    "@typescript-eslint/parser": "^4.14.0",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "typescript": "^4.1.3"
+  }
+}
