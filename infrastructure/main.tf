@@ -7,8 +7,13 @@ provider "aws" {
   }
 }
 
-resource "aws_iam_role" "lambda_role" {
-  name = "lambda_role"
+resource "aws_qldb_ledger" "vehicle_ledger" {
+  name = "vehicle-registration"
+  deletion_protection = false
+}
+
+resource "aws_iam_role" "lambda_qldb_eole" {
+  name = "lambda_qldb_ole"
 
   assume_role_policy = <<EOF
 {
@@ -30,11 +35,8 @@ EOF
 resource "aws_lambda_function" "lambda-qldb-demo" {
  image_uri      = "${var.account}.dkr.ecr.us-east-1.amazonaws.com/lambda-container-demo-repo:qldb-latest"
  function_name = "lambda-qldb-demo"
- role          = "${aws_iam_role.lambda_role.arn}"
- handler       = "app.handler"
+ role          = "${aws_iam_role.lambda_qldb_eole.arn}"
  package_type  = "Image"
-
- runtime = "nodejs12.x"
 
  tracing_config {
    mode = "Active"
@@ -51,8 +53,8 @@ resource "aws_cloudwatch_log_group" "lambda_demo" {
 }
 
 # See also the following AWS managed policy: AWSLambdaBasicExecutionRole
-resource "aws_iam_policy" "lambda_permissions" {
-  name = "lambda_permissions"
+resource "aws_iam_policy" "lambda_qldb_permissions" {
+  name = "lambda_qldb_permissions"
   path = "/"
   description = "IAM policy for logging from a lambda"
 
@@ -68,6 +70,24 @@ resource "aws_iam_policy" "lambda_permissions" {
       ],
       "Resource": "arn:aws:logs:*:*:*",
       "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "qldb:CreateLedger",
+        "qldb:DeleteLedger",
+        "qldb:DescribeLedger",
+        "qldb:ExecuteStatement",
+        "qldb:GetBlock",
+        "qldb:GetDigest",
+        "qldb:GetRevision",
+        "qldb:InsertSampleData",
+        "qldb:ListLedgers",
+        "qldb:SendCommand",
+        "qldb:ShowCatalog",
+        "qldb:UpdateLedger"
+      ],
+      "Resource": "${aws_qldb_ledger.vehicle_ledger.arn}",
+      "Effect": "Allow"
     }
   ]
 }
@@ -75,6 +95,6 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
-  role = "${aws_iam_role.lambda_role.name}"
-  policy_arn = "${aws_iam_policy.lambda_permissions.arn}"
+  role = "${aws_iam_role.lambda_qldb_eole.name}"
+  policy_arn = "${aws_iam_policy.lambda_qldb_permissions.arn}"
 }
