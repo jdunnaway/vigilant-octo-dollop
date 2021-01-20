@@ -27,6 +27,11 @@
     "prettier": "^2.2.1"
   },
   "dependencies": {
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.3",
+    "@types/node": "^12.0.2",
+    "amazon-qldb-driver-nodejs": "2.0.0",
+    "aws-sdk": "^2.564.0",
+    "ion-js": "~4.0.0",
+    "jsbi": "^3.1.1"
   }
 }
